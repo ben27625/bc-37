@@ -1,0 +1,12 @@
+.wrapper {
+    background-color: black;
+}
+
+.row{
+    display: flex;
+}
+
+.col {
+    background-color: rgb(82 86 89);
+}
+
