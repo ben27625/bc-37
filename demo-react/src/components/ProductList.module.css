@@ -1,0 +1,14 @@
+.row{
+    display: flex;
+}
+
+.col{
+    width: 33.33%;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+.item{
+    border: 1px solid black;
+    border-radius: 5px; 
+}
