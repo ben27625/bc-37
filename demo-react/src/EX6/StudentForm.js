@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {connect} from "react-redux"
+import { connect } from "react-redux";
 
 export class StudentForm extends Component {
   state = {
@@ -15,14 +15,42 @@ export class StudentForm extends Component {
       chemistry: "",
     },
   };
+
+  // props đổi state thay đổi
+  // lifecycle chạy khi component được update
+
+  static getDerivedStateFromProps(nextProps, currentState) {
+    if (
+      !nextProps.selectedStudent ||
+     currentState.formData.selectedStudent ===
+        nextProps.selectedStudent.studentId
+    ) {
+      return currentState;
+    }
+    return {
+      formData: nextProps.selectedStudent,
+    };
+  }
+
   handleChange = (e) => {
     this.setState({
-      formData: { ...this.state.formData, [e.target.name]: e.target.name },
+      formData: { ...this.state.formData, [e.target.name]: e.target.value },
     });
+    console.log([e.target.name], e.target.value);
   };
 
-  handlleSubmit = async (e) => {
+  handleSubmit = async (e) => {
+
+
+    // console.log(this.state.formData)
     e.preventDefault();
+
+    if(this.props.selectedStudent) {
+      // call api update
+      // call api fetch student List
+      // dispatch action lên store để reset 
+    }
+    // block event default action
     try {
       await axios({
         method: "POST",
@@ -31,8 +59,9 @@ export class StudentForm extends Component {
       });
       this.props.fetchStudent();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+    //
   };
 
   render() {
@@ -40,11 +69,12 @@ export class StudentForm extends Component {
       <div>
         <div className="card-body">
           <form
-            onSubmit={this.handlleSubmit}
+            onSubmit={this.handleSubmit}
             style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30 }}
           >
             <input
               onChange={this.handleChange}
+              value={this.state.formData.fullName}
               name="fullName"
               type="text"
               className="form-control"
@@ -52,6 +82,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.studentId}
               name="studentId"
               type="text"
               className="form-control"
@@ -59,6 +90,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.email}
               name="email"
               type="text"
               className="form-control"
@@ -66,6 +98,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.dob}
               name="dob"
               type="date"
               className="form-control"
@@ -73,6 +106,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.course}
               name="course"
               type="text"
               className="form-control"
@@ -80,6 +114,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.math}
               name="math"
               type="text"
               className="form-control"
@@ -87,6 +122,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.physic}
               name="physic"
               type="text"
               className="form-control"
@@ -94,6 +130,7 @@ export class StudentForm extends Component {
             />
             <input
               onChange={this.handleChange}
+              value={this.state.formData.chemistry}
               name="chemistry"
               type="text"
               className="form-control"
@@ -109,7 +146,9 @@ export class StudentForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  
-}
+  return {
+    selectedStudent: state.student.selectedStudent,
+  };
+};
 
-export default connect() (StudentForm);
+export default connect(mapStateToProps)(StudentForm);

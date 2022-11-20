@@ -11,10 +11,11 @@ export class StudentList extends Component {
           "https://5bd2959ac8f9e400130cb7e9.mockapi.io/api/students?fbclid=IwAR3W32Dvi-tnY9SE0iKYOrc7uPOXtUJqXxyc76_ROdEp3hsX818FvoN23nQ" +
           id,
       });
+      console.log(res.data)
       this.props.dispatch({
         type: "student/setSelectedStudent",
-        payload: res.data
-      })
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +66,7 @@ export class StudentList extends Component {
                         <button
                           className="btn btn-info me-3"
                           onClick={() => {
-                            this.fetchStudentDetail(item);
+                            this.fetchStudentDetail(studentId);
                           }}
                         >
                           {" "}
