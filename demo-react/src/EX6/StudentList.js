@@ -1,24 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+import { fetchStudentDetailAction } from "./redux/action";
 
 export class StudentList extends Component {
   fetchStudentDetail = async (id) => {
-    try {
-      const res = await axios({
-        method: "GET",
-        url:
-          "https://5bd2959ac8f9e400130cb7e9.mockapi.io/api/students?fbclid=IwAR3W32Dvi-tnY9SE0iKYOrc7uPOXtUJqXxyc76_ROdEp3hsX818FvoN23nQ" +
-          id,
-      });
-      console.log(res.data)
-      this.props.dispatch({
-        type: "student/setSelectedStudent",
-        payload: res.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    this.props.dispatch(fetchStudentDetailAction(id)) 
   };
 
   render() {
